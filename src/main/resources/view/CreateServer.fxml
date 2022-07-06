@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.squidxtv.msc.controller.CreateServerController">
+    <AnchorPane VBox.vgrow="ALWAYS">
+        <Label alignment="CENTER" layoutX="237.0" layoutY="24.0" prefHeight="50.0" prefWidth="427.0" style="&#10;" text="Create Server">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Label>
+        <Label layoutX="-1.0" layoutY="474.0" prefHeight="29.0" prefWidth="143.0" text=" VERSION: prototype!">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="-1.0" layoutY="453.0" prefHeight="21.0" prefWidth="160.0" text=" Connor Schweighoefer">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <TextField fx:id="name" layoutX="376.0" layoutY="150.0" />
+        <Label layoutX="248.0" layoutY="150.0" prefHeight="25.0" prefWidth="117.0" text="Server Name:">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <Label fx:id="folderLabel" alignment="CENTER" layoutX="371.0" layoutY="250.0" prefHeight="25.0" prefWidth="160.0" textOverrun="LEADING_ELLIPSIS" />
+        <Button fx:id="selectFolderButton" layoutX="233.0" layoutY="249.0" mnemonicParsing="false" onAction="#selectFolder" prefHeight="27.0" prefWidth="132.0" text="Select Folder">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Button>
+        <Button layoutX="379.0" layoutY="405.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="143.0" text="CREATE" onAction="#createServer">
+            <font>
+                <Font size="23.0" />
+            </font>
+        </Button>
+        <Button layoutX="803.0" layoutY="442.0" mnemonicParsing="false" onAction="#backButtonAction" prefHeight="43.0" prefWidth="83.0" text="BACK">
+            <font>
+                <Font size="19.0" />
+            </font>
+        </Button>
+        <Label layoutX="248.0" layoutY="200.0" prefHeight="25.0" prefWidth="117.0" text="Select Version:">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <ProgressBar layoutX="350.0" layoutY="350.0" prefWidth="200.0" progress="0.0" />
+        <Label layoutX="418.0" layoutY="313.0" prefHeight="17.0" prefWidth="345.0">
+            <font>
+                <Font size="19.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="versions" layoutX="375.0" layoutY="200.0" prefWidth="150.0" />
+      <Label fx:id="nameErrorMessage" layoutX="550.0" layoutY="150.0" prefHeight="25.0" prefWidth="258.0" text="You need to set a Name for your server!" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="versionErrorMessage" layoutX="550.0" layoutY="202.0" prefHeight="21.0" prefWidth="258.0" text="You need to set a Version for your server!" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="folderErrorMessage" layoutX="550.0" layoutY="252.0" prefHeight="21.0" prefWidth="270.0" text="You need to select a folder for your server!" textFill="RED" visible="false">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+    </AnchorPane>
+</VBox>
