@@ -109,6 +109,7 @@ public class CreateServerController {
         }, 5, TimeUnit.SECONDS);
 
         if(nameErrorMessage.isVisible() || versionErrorMessage.isVisible() || folderErrorMessage.isVisible()) return;
+        // ToDo: impl create directory, download jar, run start.bat, accept eula, start again | Concurrent!
     }
 
     @FXML
