@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.squidxtv.msc.controller.CreateServerController">
+<VBox prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.squidxtv.msc.controller.CreateServerController">
     <AnchorPane VBox.vgrow="ALWAYS">
         <Label alignment="CENTER" layoutX="237.0" layoutY="24.0" prefHeight="50.0" prefWidth="427.0" style="&#10;" text="Create Server">
             <font>
@@ -21,7 +26,7 @@
                 <Font size="15.0" />
             </font>
         </Label>
-        <TextField fx:id="name" layoutX="376.0" layoutY="150.0" />
+        <TextField fx:id="nameTextField" layoutX="376.0" layoutY="150.0" />
         <Label layoutX="248.0" layoutY="150.0" prefHeight="25.0" prefWidth="117.0" text="Server Name:">
             <font>
                 <Font size="16.0" />
@@ -33,7 +38,7 @@
                 <Font size="13.0" />
             </font>
         </Button>
-        <Button layoutX="379.0" layoutY="405.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="143.0" text="CREATE" onAction="#createServer">
+        <Button layoutX="379.0" layoutY="405.0" mnemonicParsing="false" onAction="#createServer" prefHeight="59.0" prefWidth="143.0" text="CREATE">
             <font>
                 <Font size="23.0" />
             </font>
@@ -49,26 +54,7 @@
             </font>
         </Label>
         <ProgressBar layoutX="350.0" layoutY="350.0" prefWidth="200.0" progress="0.0" />
-        <Label layoutX="418.0" layoutY="313.0" prefHeight="17.0" prefWidth="345.0">
-            <font>
-                <Font size="19.0" />
-            </font>
-        </Label>
         <ComboBox fx:id="versions" layoutX="375.0" layoutY="200.0" prefWidth="150.0" />
-      <Label fx:id="nameErrorMessage" layoutX="550.0" layoutY="150.0" prefHeight="25.0" prefWidth="258.0" text="You need to set a Name for your server!" textFill="RED" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="versionErrorMessage" layoutX="550.0" layoutY="202.0" prefHeight="21.0" prefWidth="258.0" text="You need to set a Version for your server!" textFill="RED" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="folderErrorMessage" layoutX="550.0" layoutY="252.0" prefHeight="21.0" prefWidth="270.0" text="You need to select a folder for your server!" textFill="RED" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <Label fx:id="errorMessage" alignment="CENTER" layoutX="219.0" layoutY="305.0" prefHeight="28.0" prefWidth="464.0" textFill="RED" visible="false" />
     </AnchorPane>
 </VBox>
