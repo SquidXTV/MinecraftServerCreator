@@ -25,12 +25,13 @@ public class SceneManager {
                 addScene(scene);
             }
         } catch (IOException e) {
-            System.exit(404);
+            throw new RuntimeException(e);
         }
     }
 
     public void addScene(Scenes scene) throws IOException {
-        Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(scene.getPath())));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/" + scene.getName() + ".fxml")));
+        pane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/" + scene.getName() + ".css")).toExternalForm());
         scenes.put(scene, pane);
     }
 

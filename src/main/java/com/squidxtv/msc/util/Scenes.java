@@ -1,17 +1,19 @@
 package com.squidxtv.msc.util;
 
 public enum Scenes {
-    MENU("/view/Menu.fxml"),
-    SERVER_LIST("/view/ServerList.fxml"),
-    CREATE_SERVER("/view/CreateServer.fxml");
+    MENU("Menu"),
+    SERVER_LIST("ServerList"),
+    CREATE_SERVER("CreateServer"),
+    SETUP("Setup"),
+    SETTINGS("Settings");
 
-    private final String path;
+    private final String name;
 
     Scenes(String path) {
-        this.path = path;
+        this.name = path;
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 }
