@@ -9,15 +9,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Menu");
+        stage.setTitle("Minecraft Server Creator");
         stage.setResizable(false);
 
         SceneManager manager = new SceneManager(stage);
         manager.activate(Scenes.MENU);
 
-        stage.setOnCloseRequest(windowEvent -> {
-            Main.shutdownApplication();
-        });
+        stage.setOnCloseRequest(windowEvent -> Main.shutdownApplication());
         stage.show();
     }
 }
