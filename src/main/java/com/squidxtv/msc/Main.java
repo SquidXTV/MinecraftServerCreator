@@ -1,5 +1,7 @@
 package com.squidxtv.msc;
 
+import com.squidxtv.msc.downloader.PaperDownloader;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,8 +17,10 @@ public class Main {
     private static Path saves;
     private static Path backup;
     private static Path tools;
+	private static PaperDownloader paperDownloader;
 
     public static void main(String[] args) throws IOException {
+		paperDownloader = new PaperDownloader();
         scheduledService = Executors.newSingleThreadScheduledExecutor();
         service = Executors.newSingleThreadExecutor();
 
@@ -50,5 +54,8 @@ public class Main {
         } catch (InterruptedException e) {
             es.shutdownNow();
         }
+    }
+	public static PaperDownloader getPaperDownloader() {
+        return paperDownloader;   
     }
 }

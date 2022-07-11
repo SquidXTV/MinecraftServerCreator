@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -42,22 +43,17 @@ public class PaperDownloader extends ServerDownloader{
      * @return Url for the server download
      */
     private String getURLFile(String version) throws IOException {
-        String url = base+version+"/builds/";
+        String url = base+"versions/"+version+"/builds/";
         String text = getTextFromURL(url);
-
         // Get the latest build
-        JSONObject object = new JSONObject(text).getJSONArray("builds")
-                .toList()
-                .stream()
-                .map(JSONObject::new)
-                .max((o1, o2) -> {
-                    int i1 = o1.getInt("build");
-                    int i2 = o2.getInt("build");
-                    return Math.max(i1, i2);
-                })
-                .orElse(null);
-        if(object == null)
-            return null;
+        JSONArray array = new JSONObject(text).getJSONArray("builds");
+        JSONObject object;
+        object = array.getJSONObject(0);
+        for(int i = 1; i < array.length(); i++) {
+            if(array.getJSONObject(i).getInt("build") > object.getInt("build"))
+                object = array.getJSONObject(i);
+        }
+
 
         //bulild number
         int build = object.getInt("build");
