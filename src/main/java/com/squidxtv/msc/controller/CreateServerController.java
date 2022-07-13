@@ -1,9 +1,8 @@
 package com.squidxtv.msc.controller;
 
-import com.squidxtv.msc.Main;
-import com.squidxtv.msc.util.SceneManager;
+import com.squidxtv.msc.App;
+import com.squidxtv.msc.util.Controller;
 import com.squidxtv.msc.util.Scenes;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -13,127 +12,145 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
-public class CreateServerController {
+//public class CreateServerController {
+//
+//    private DirectoryChooser directoryChooser;
+//    private File directory;
+//    private String path;
+//    private Future<?> currentFuture;
+//
+//    @FXML
+//    private Button backButton;
+//    @FXML
+//    private Button selectFolderButton;
+//    @FXML
+//    private TextField nameTextField;
+//    @FXML
+//    private Label folderLabel;
+//    @FXML
+//    private ComboBox<String> versions;
+//
+//    @FXML
+//    private Label errorMessage;
+//
+//    @FXML
+//    private void initialize() {
+//        App.setButtonBackground("arrow_left.png", backButton, 48, 48, BackgroundPosition.CENTER);
+//        directoryChooser = new DirectoryChooser();
+//        versions.setVisibleRowCount(5);
+//        for(SpigotVersion sv : SpigotVersion.values()) {
+//            versions.getItems().add(sv.name().replace("S", "Spigot - ").replace("_", "."));
+//        }
+//    }
+//
+//    @FXML
+//    private void createServer() {
+//        if(!validate()) {
+//            errorMessage.setVisible(true);
+//            currentFuture = Main.getScheduledService().schedule(() -> Platform.runLater(() -> errorMessage.setVisible(false)), 5, TimeUnit.SECONDS);
+//            return;
+//        }
+//        errorMessage.setVisible(false);
+//        if(currentFuture != null) currentFuture.cancel(true);
+//
+//        String name = nameTextField.getText();
+//        SpigotVersion version = SpigotVersion.fromVersion(versions.getValue());
+//        Path save = Path.of(Main.getSaves().toUri()).resolve(name);
+//
+//        Main.getScheduledService().schedule(() -> {
+//            try {
+//                Files.createDirectories(save);
+//                Path spigotFile = Path.of(Main.getBackup().toUri()).resolve(name.replace("Spigot - ", "spigot-") + ".jar");
+//                if(!Files.exists(spigotFile)) {
+//                    // download with buildtools into backup folder
+//                    ProcessBuilder builder = new ProcessBuilder("java", "-jar", "BuildTools.jar", "--rev", version.getBuild(), "--output-dir", Main.getBackup().toString());
+//                    builder.directory(new File(Main.getTools().toUri()));
+//                    Process p = builder.start();
+//                    p.waitFor();
+//                }
+//                Files.copy(spigotFile, save);
+//                // generate and run start.bat
+//                // accept eula
+//                // run start.bat
+//            } catch (IOException | InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }, 100, TimeUnit.MILLISECONDS);
+//    }
+//
+//    @FXML
+//    private void selectFolder() {
+//        directory = directoryChooser.showDialog(selectFolderButton.getScene().getWindow());
+//        if(directory == null) return;
+//        path = directory.getAbsolutePath().replace("\\", "/");
+//        folderLabel.setText(path);
+//    }
+//
+//    @FXML
+//    private void backButtonAction() {
+//        reset();
+//        SceneManager.getInstance().activate(Scenes.MENU);
+//    }
+//
+//    private void reset() {
+//        nameTextField.setText("");
+//        versions.setValue(null);
+//        path = "";
+//        directory = null;
+//        folderLabel.setText("");
+//        errorMessage.setVisible(false);
+//    }
+//
+//    private boolean validate() {
+//        String name = nameTextField.getText();
+//
+//        if(currentFuture != null) currentFuture.cancel(true);
+//        if(directory == null) {
+//            errorMessage.setText("No Directory selected!");
+//            return false;
+//        }
+//        if(versions.getValue() == null) {
+//            errorMessage.setText("No Version selected!");
+//            return false;
+//        }
+//        if(!Pattern.matches("^[\\w\\s.-]{1,244}$", name)) {
+//            errorMessage.setText("Name of Server is invalid, allowed characters: A-Za-z0-9._- and whitespaces!");
+//            return false;
+//        }
+//        if(Files.exists(Path.of(Main.getSaves().toUri()).resolve(name))) {
+//            errorMessage.setText("Server with that name already exists!");
+//        }
+//        return true;
+//    }
+//}
 
-    private DirectoryChooser directoryChooser;
-    private File selectedFile;
-    private String path;
-    private Future currentFuture;
+public class CreateServerController implements Controller<String> {
 
-    @FXML
-    private Button selectFolderButton;
+    private final DirectoryChooser dirChooser = new DirectoryChooser();
+    private File dir = null;
+    private Future<?> future = null;
+
     @FXML
     private TextField name;
     @FXML
-    private Label folderLabel;
-    @FXML
     private ComboBox<String> versions;
+    @FXML
+    private Label path;
+    @FXML
+    private Button back;
 
     @FXML
-    private Label nameErrorMessage;
-    @FXML
-    private Label versionErrorMessage;
-    @FXML
-    private Label folderErrorMessage;
+    private Label error;
 
     @FXML
-    private void initialize() {
-        directoryChooser = new DirectoryChooser();
-        versions.setVisibleRowCount(5);
-        versions.getItems().add("Spigot - 1.18.1");
-        versions.getItems().add("Spigot - 1.18");
-        versions.getItems().add("Spigot - 1.17.1");
-        versions.getItems().add("Spigot - 1.17");
-        versions.getItems().add("Spigot - 1.16.5");
-        versions.getItems().add("Spigot - 1.16.4");
-        versions.getItems().add("Spigot - 1.16.3");
-        versions.getItems().add("Spigot - 1.16.2");
-        versions.getItems().add("Spigot - 1.16.1");
-        versions.getItems().add("Spigot - 1.15.2");
-        versions.getItems().add("Spigot - 1.15.1");
-        versions.getItems().add("Spigot - 1.15");
-        versions.getItems().add("Spigot - 1.14.4");
-        versions.getItems().add("Spigot - 1.14.3");
-        versions.getItems().add("Spigot - 1.14.2");
-        versions.getItems().add("Spigot - 1.14.1");
-        versions.getItems().add("Spigot - 1.14");
-        versions.getItems().add("Spigot - 1.13.2");
-        versions.getItems().add("Spigot - 1.13.1");
-        versions.getItems().add("Spigot - 1.13");
-        versions.getItems().add("Spigot - 1.12.2");
-        versions.getItems().add("Spigot - 1.12.1");
-        versions.getItems().add("Spigot - 1.12");
-        versions.getItems().add("Spigot - 1.11.2");
-        versions.getItems().add("Spigot - 1.11.1");
-        versions.getItems().add("Spigot - 1.11");
-        versions.getItems().add("Spigot - 1.10.2");
-        versions.getItems().add("Spigot - 1.10");
-        versions.getItems().add("Spigot - 1.9.4");
-        versions.getItems().add("Spigot - 1.9.2");
-        versions.getItems().add("Spigot - 1.9");
-        versions.getItems().add("Spigot - 1.8.8");
-        versions.getItems().add("Spigot - 1.8.7");
-        versions.getItems().add("Spigot - 1.8.6");
-        versions.getItems().add("Spigot - 1.8.5");
-        versions.getItems().add("Spigot - 1.8.4");
-        versions.getItems().add("Spigot - 1.8.3");
-        versions.getItems().add("Spigot - 1.8");
-        versions.getItems().add("Spigot - 1.7.10");
-        versions.getItems().add("Spigot - 1.7.9");
-        versions.getItems().add("Spigot - 1.7.8");
-        versions.getItems().add("Spigot - 1.7.5");
-        versions.getItems().add("Spigot - 1.7.2");
-        versions.getItems().add("Spigot - 1.6.4");
-        versions.getItems().add("Spigot - 1.6.2");
-        versions.getItems().add("Spigot - 1.5.2");
-        versions.getItems().add("Spigot - 1.5.1");
-        versions.getItems().add("Spigot - 1.4.7");
-        versions.getItems().add("Spigot - 1.4.6");
+    private void backAction() {
+        App.getManager().switchScene(Scenes.MENU, "");
     }
 
-    @FXML
-    private void createServer() {
-        if(currentFuture != null) currentFuture.cancel(true);
-        if(name.getText() == null || name.getText().equals("")) nameErrorMessage.setVisible(true);
-        if(versions.getValue() == null) versionErrorMessage.setVisible(true);
-        if(selectedFile == null || !selectedFile.isDirectory()) folderErrorMessage.setVisible(true);
+    @Override
+    public void init(String s) {}
 
-        currentFuture = Main.getScheduledService().schedule(() -> {
-            Platform.runLater(() -> {
-                nameErrorMessage.setVisible(false);
-                versionErrorMessage.setVisible(false);
-                folderErrorMessage.setVisible(false);
-            });
-        }, 5, TimeUnit.SECONDS);
-
-        if(nameErrorMessage.isVisible() || versionErrorMessage.isVisible() || folderErrorMessage.isVisible()) return;
-        // ToDo: impl create directory, download jar, run start.bat, accept eula, start again | Concurrent!
-    }
-
-    @FXML
-    private void selectFolder() {
-        selectedFile = directoryChooser.showDialog(selectFolderButton.getScene().getWindow());
-        if(selectedFile == null) return;
-        path = selectedFile.getAbsolutePath().replace("\\", "/");
-        folderLabel.setText(path);
-    }
-
-    @FXML
-    private void backButtonAction() {
-        reset();
-        SceneManager.getInstance().activate(Scenes.MENU);
-    }
-
-    private void reset() {
-        name.setText("");
-        versions.setValue(null);
-        path = "";
-        selectedFile = null;
-        folderLabel.setText("");
-        nameErrorMessage.setVisible(false);
-        versionErrorMessage.setVisible(false);
-        folderErrorMessage.setVisible(false);
-    }
+    @Override
+    public void reset() {}
 }

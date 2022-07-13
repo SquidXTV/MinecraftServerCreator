@@ -16,4 +16,5 @@ public enum Scenes {
     public String getName() {
         return name;
     }
+
 }

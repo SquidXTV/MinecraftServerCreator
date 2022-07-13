@@ -28,7 +28,7 @@
             </font>
         </Label>
         <Button layoutX="803.0" layoutY="442.0" mnemonicParsing="false" prefHeight="43.0"
-                prefWidth="83.0" text="BACK" onAction="#backButtonAction">
+                prefWidth="83.0" text="BACK">
             <font>
                 <Font size="19.0"/>
             </font>
