@@ -1,6 +1,8 @@
 package com.squidxtv.msc;
 
 import com.squidxtv.msc.downloader.PaperDownloader;
+import com.squidxtv.msc.server.DownloadManager;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,13 +23,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         scheduledService = Executors.newSingleThreadScheduledExecutor();
-        service = Executors.newSingleThreadExecutor();
+//        service = Executors.newSingleThreadExecutor();
+        service = Executors.newFixedThreadPool(4);
         paperDownloader = new PaperDownloader();
 
         saves = Files.createDirectories(Path.of(System.getenv("APPDATA"), "Minecraft Server Creator", "saves"));
         backup = Files.createDirectories(Path.of(System.getenv("APPDATA"), "Minecraft Server Creator", "backup"));
         tools = Files.createDirectories(Path.of(System.getenv("APPDATA")).resolve("Minecraft Server Creator").resolve("Tools"));
 
+        DownloadManager.downloadBuildTools();
         App.launch(App.class, args);
     }
 
@@ -46,6 +50,7 @@ public class Main {
         shutdownService(getScheduledService());
         shutdownService(getService());
         // shutdown Process
+        Platform.exit();
     }
 
     private static void shutdownService(ExecutorService es) {
