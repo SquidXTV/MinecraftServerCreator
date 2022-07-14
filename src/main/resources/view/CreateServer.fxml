@@ -51,7 +51,7 @@
         <!--Versions ComboBox-->
         <ComboBox fx:id="versions" layoutX="375.0" layoutY="200.0" prefWidth="150.0" style="-fx-border-color: black;" />
         <!--Select Folder Button-->
-        <Button layoutX="233.0" layoutY="249.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="132.0" style="-fx-border-color: black;" text="Select Folder">
+        <Button onAction="#folderAction" layoutX="233.0" layoutY="249.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="132.0" style="-fx-border-color: black;" text="Select Folder">
             <font>
                 <Font size="13.0" />
             </font>
@@ -61,7 +61,7 @@
         <!--Error Label-->
         <Label fx:id="error" alignment="CENTER" layoutX="219.0" layoutY="305.0" prefHeight="28.0" prefWidth="464.0" textFill="RED" visible="false" />
         <!--Create Server Button-->
-        <Button layoutX="379.0" layoutY="351.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="143.0" text="CREATE">
+        <Button onAction="#createAction" layoutX="379.0" layoutY="351.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="143.0" text="CREATE">
             <font>
                 <Font size="23.0" />
             </font>
