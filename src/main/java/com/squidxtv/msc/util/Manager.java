@@ -12,6 +12,7 @@ import java.util.Map;
 public class Manager {
     private final Stage window;
     private final Map<Scenes, View> scenes = new HashMap<>();
+    private Scenes current = null;
 
     public Manager(Stage window) {
         this.window = window;
@@ -32,6 +33,8 @@ public class Manager {
     public <T> void switchScene(Scenes scene, T args) {
         View view = scenes.get(scene);
         ((Controller<T>) view.controller()).init(args);
+        if(current != null) scenes.get(current).controller().reset();
         window.setScene(view.scene());
+        current = scene;
     }
 }
