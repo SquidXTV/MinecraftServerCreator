@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ public class Manager {
             try(InputStream stream = getClass().getResourceAsStream("/view/" + s.getName() + ".fxml")) {
                 FXMLLoader loader = new FXMLLoader();
                 Scene scene = new Scene(loader.load(stream));
-                scene.getStylesheets().add("/css/" + s.getName() + ".css");
+                URL url = getClass().getResource("/css/" + s.getName() + ".css");
+                if(url != null) scene.getStylesheets().add(url.toExternalForm());
                 View view = new View(scene, loader.getController());
                 scenes.put(s, view);
             } catch (IOException e) {
@@ -37,4 +39,5 @@ public class Manager {
         window.setScene(view.scene());
         current = scene;
     }
+
 }

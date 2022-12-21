@@ -8,10 +8,13 @@ import com.squidxtv.msc.util.Scenes;
 import com.squidxtv.msc.util.Util;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -19,6 +22,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -54,44 +58,94 @@ public class SetupController implements Controller<String> {
 
         future = Main.getService().submit(() -> {
             try {
+                // create save dir and store path
                 Files.createDirectories(save);
-                Path spigotSave = Path.of(Main.getBackup().toUri()).resolve(name.replace("Spigot - ", "spigot-") + ".jar");
+                Path spigotSave = Path.of(Main.getBackup().toUri()).resolve(args[1].replace("Spigot - ", "spigot-") + ".jar");
+                // checks if server already exists and if not install in Backup folder
+                // then copy from Backup to spigotSave
                 if(!Files.exists(spigotSave)) {
-                    ProcessBuilder builder = new ProcessBuilder("java", "-jar", "BuildTools.jar", "--rev", version.getBuild(), "--output-dir", Main.getBackup().toString());
-                    builder.directory(new File(Main.getTools().toUri()));
-                    process = builder.start();
-                    System.out.println("Process PID: " + process.pid());
-                    printInputStream(process.inputReader());
-                    printInputStream(process.errorReader());
-                    process.waitFor();
-                    Platform.runLater(() -> {
-                        text.getChildren().add(new Text("DONE!"));
-                        scroll.setVvalue(1.0);
-                        scroll.setHvalue(0);
-                    });
+                    installServer();
                 }
-                Files.copy(spigotSave, Path.of(save.toUri()).resolve(name.replace("Spigot - ", "spigot-") + ".jar"));
+                Files.copy(spigotSave, Path.of(save.toUri()).resolve(args[1].replace("Spigot - ", "spigot-") + ".jar"));
+                // success
+                Text t = new Text("Successfully copied Server from Backup folder to " + name + " folder!\n");
+                t.setFill(Color.GREEN);
+                print(t);
+
+                setupServer();
             } catch (IOException | InterruptedException e) {
+                process.destroyForcibly();
                 throw new RuntimeException(e);
             }
         });
     }
 
-    private void printInputStream(BufferedReader reader) {
+    /**
+     * installs the server into the Backup folder
+     * and prints command lines using {@link SetupController#print(BufferedReader)}
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    private void installServer() throws IOException, InterruptedException {
+        Text t;
+        // configure and start process
+        ProcessBuilder builder = new ProcessBuilder("java", "-jar", "BuildTools.jar", "--rev", version.getBuild(), "--output-dir", Main.getBackup().toString());
+        builder.directory(new File(Main.getTools().toUri()));
+        process = builder.start();
+        // printing configuration
+        t = new Text("PID: " + process.pid());
+        t.setFill(Color.GREEN);
+        print(t);
+        print(process.inputReader());
+        print(process.errorReader());
+        process.waitFor();
+        // done
+        t = new Text("\nDone downloading Spigot Server!\n");
+        t.setFill(Color.GREEN);
+        print(t);
+    }
+
+    private void setupServer() throws IOException {
+        Path startBatch = Path.of(save.toUri()).resolve("start.bat");
+        Files.createFile(startBatch);
+        String command = "java -Xmx4G -Xms2G -jar " + args[1].replace("Spigot - ", "spigot-") + ".jar --nogui"; // ToDo: add Settings functionality!
+        Files.write(startBatch, List.of(command, "pause"));
+    }
+
+    /**
+     * reads lines from {@link BufferedReader} and calls {@link SetupController#print(String)}
+     * @param reader
+     */
+    private void print(BufferedReader reader) {
         Main.getService().submit(() -> {
-            try{
+            try {
                 String line;
                 while((line = reader.readLine()) != null) {
-                    String finalLine = line;
-                    Platform.runLater(() -> {
-                        text.getChildren().add(new Text(finalLine + "\n"));
-                        scroll.setVvalue(1.0);
-                    });
-                    TimeUnit.MICROSECONDS.sleep(100);
+                    print(line + "\n");
                 }
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
+            }catch (IOException e) {
+                throw new RuntimeException();
             }
+        });
+    }
+
+    /**
+     * converts String to Text and then calls {@link SetupController#print(Text)}
+     * @param s string
+     */
+    private void print(String s) {
+        print(new Text(s));
+    }
+
+    /**
+     * adds text to TextFlow
+     * @param t specific text to add
+     */
+    private void print(Text t) {
+        Platform.runLater(() -> {
+            text.getChildren().add(t);
+            scroll.setHvalue(0.0);
+            scroll.setVvalue(1.0);
         });
     }
 

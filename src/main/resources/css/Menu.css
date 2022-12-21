@@ -1,0 +1,34 @@
+#standard-buttons {
+    -fx-padding: 0.46em 1.6em;
+    -fx-border-width: 0.2em;
+    -fx-border-radius: 0.12em;
+    -fx-border-color: #E0E0E0;
+    -fx-text-fill: #000000;
+    -fx-font-family: 'Roboto', sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.3em;
+    -fx-text-alignment: center;
+    -fx-background-color: #42cc8c;
+}
+
+#standard-buttons:hover {
+    -fx-text-fill: #000000;
+    -fx-background-color: #FFFFFF;
+}
+
+#title {
+    -fx-font-size: 3.0em;
+    -fx-font-family: "Dank Mono", ui-monospace, monospace;
+    -fx-font-weight: bold;
+    /*-fx-text-fill: linear-gradient(to right, #4CAF50, #388E3C);*/
+    -fx-text-fill: #000000;
+}
+
+#info {
+    -fx-font-size: 1.2em;
+    -fx-text-fill: #000000;
+}
+
+#background {
+    -fx-background-color: #007576;
+}

@@ -1,61 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
 <VBox prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.squidxtv.msc.controller.ServerListController">
-    <AnchorPane VBox.vgrow="ALWAYS">
-        <Label alignment="CENTER" layoutX="237.0" layoutY="24.0" prefHeight="50.0" prefWidth="427.0" style="&#10;"
-               text="Server List">
-            <font>
-                <Font size="28.0"/>
-            </font>
-        </Label>
-        <Label layoutX="-1.0" layoutY="474.0" prefHeight="29.0" prefWidth="143.0"
-               text=" VERSION: prototype!">
-            <font>
-                <Font size="15.0"/>
-            </font>
-        </Label>
-        <Label layoutX="-1.0" layoutY="453.0" prefHeight="21.0" prefWidth="160.0" text=" Connor Schweighoefer">
-            <font>
-                <Font size="15.0"/>
-            </font>
-        </Label>
-        <Button layoutX="803.0" layoutY="442.0" mnemonicParsing="false" prefHeight="43.0"
-                prefWidth="83.0" text="BACK">
-            <font>
-                <Font size="19.0"/>
-            </font>
-        </Button>
-        <ComboBox layoutX="383.0" layoutY="169.0" prefHeight="25.0" prefWidth="294.0"/>
-        <Label layoutX="258.0" layoutY="169.0" prefHeight="25.0" prefWidth="117.0" text="Select Server:">
-            <font>
-                <Font size="16.0"/>
-            </font>
-        </Label>
-        <Button layoutX="378.0" layoutY="360.0" mnemonicParsing="false" prefHeight="43.0"
-                prefWidth="160.0" text="EDIT SETTINGS">
-            <font>
-                <Font size="19.0"/>
-            </font>
-        </Button>
-        <Button layoutX="378.0" layoutY="300.0" mnemonicParsing="false" prefHeight="43.0"
-                prefWidth="160.0" text="START SERVER">
-            <font>
-                <Font size="19.0"/>
-            </font>
-        </Button>
-        <Button layoutX="378.0" layoutY="420.0" mnemonicParsing="false" prefHeight="43.0"
-                prefWidth="160.0" text="DELETE SERVER">
-            <font>
-                <Font size="19.0"/>
-            </font>
-        </Button>
-    </AnchorPane>
+   <AnchorPane VBox.vgrow="ALWAYS">
+      <Label alignment="CENTER" layoutX="237.0" layoutY="24.0" prefHeight="50.0" prefWidth="427.0" style="-fx-font-size: 28"
+             text="Create Server" />
+      <Label style="-fx-font-size: 15" layoutX="743.0" layoutY="435.0" prefHeight="29.0" prefWidth="143.0" text=" VERSION: prototype!" />
+      <Label layoutX="664.0" layoutY="464.0" prefHeight="21.0" prefWidth="227.0"
+             style="-fx-font-size: 15" text=" Connor Schweighoefer/SquidXTV" />
+      <Button fx:id="back" onAction="#backAction" layoutX="14.0" layoutY="435.0" mnemonicParsing="false"
+              prefHeight="48.0" prefWidth="56.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-font-size: 19" />
+      <Label alignment="CENTER" layoutX="233.0" layoutY="150.0" prefHeight="25.0" prefWidth="132.0"
+             style="-fx-border-color: black; -fx-font-size: 16" text="Select Server:" />
+      <ComboBox fx:id="serverList" layoutX="375.0" layoutY="150.0" prefHeight="27.0" prefWidth="227.0"
+                style="-fx-border-color: black;"/>
+      <Button id="server-button" layoutX="359.0" layoutY="260.0" mnemonicParsing="false" prefHeight="40.0"
+              prefWidth="183.0" text="START"/>
+      <Button id="server-button" layoutX="359.0" layoutY="320.0" mnemonicParsing="false" prefHeight="40.0"
+              prefWidth="183.0" text="EDIT"/>
+      <Button id="server-button" layoutX="359.0" layoutY="380.0" mnemonicParsing="false" prefHeight="40.0"
+              prefWidth="183.0" text="DELETE"/>
+   </AnchorPane>
 </VBox>

@@ -11,19 +11,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.9.0</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18.0.1</version>
+            <version>18.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18.0.1</version>
+            <version>18.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.controlsfx</groupId>
@@ -52,11 +52,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20220320</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.13.3</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

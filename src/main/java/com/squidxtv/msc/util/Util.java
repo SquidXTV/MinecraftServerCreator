@@ -15,7 +15,11 @@ public class Util {
 
     public static <T extends Region> void setButtonBackground(String file, T t, int width, int height, BackgroundPosition pos) {
         try(InputStream in = App.class.getResourceAsStream("/images/" + file)) {
-            if(in == null) return;
+            if(in == null){
+                System.err.println("Util#setButtonBackground: in == null\n" +
+                        "couldn't load image: " + file);
+                return;
+            }
             Image image = new Image(in);
             BackgroundSize size = new BackgroundSize(width, height, false, false, false, false);
             BackgroundImage background = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, pos, size);
